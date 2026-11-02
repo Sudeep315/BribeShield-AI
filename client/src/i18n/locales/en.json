@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "title": "BribeShield AI",
+    "subtitle": "Whistleblower Intelligence",
+    "fileComplaint": "File Anonymous Complaint",
+    "trackComplaint": "Track Complaint",
+    "adminPortal": "Admin & Investigator Portal",
+    "language": "Language",
+    "securityBadge": "AES-256 Encrypted & Tamper-Evident"
+  },
+  "hero": {
+    "title": "Zero-Risk Anonymous Reporting.",
+    "highlight": "AI-Powered Anti-Corruption.",
+    "subtitle": "Report bribery, extortion, and systemic corruption with mathematical privacy. AES-256 field encryption, automated NLP risk scoring, and blockchain-style tamper-evident audit chains.",
+    "ctaFile": "Submit Protected Grievance",
+    "ctaTrack": "Track Existing Complaint",
+    "anonymousNotice": "No IP logging • Zero KYC required • Immutable records"
+  },
+  "form": {
+    "step1Title": "Department & Incident Details",
+    "department": "Government Department / Organization",
+    "selectDepartment": "Select department...",
+    "category": "Corruption Modus Operandi",
+    "selectCategory": "Select category...",
+    "incidentDate": "Incident Date",
+    "location": "Office / Specific Landmark",
+    "city": "City / District",
+    "state": "State / Province",
+    "step2Title": "Allegation & Evidence",
+    "description": "Factual Description of Demand or Extortion",
+    "descriptionPlaceholder": "Describe clearly what was demanded, who demanded it, date/time, and what service was stalled...",
+    "bribeAmount": "Demanded Bribe Amount (INR ₹)",
+    "bribeAmountPlaceholder": "e.g. 50000 or leave blank if AI should detect from text",
+    "accused": "Name & Official Designation of Accused",
+    "accusedPlaceholder": "e.g. Sub-Inspector Sharma, Head Clerk Rajesh",
+    "evidenceUpload": "Upload Corroborating Evidence (Encrypted)",
+    "dragFiles": "Drag & drop files or click to browse",
+    "supportedFiles": "Supports Audio, Video (MP4), Images (PNG/JPG), PDF (Max 10MB each)",
+    "step3Title": "Privacy, Consent & Alerts",
+    "notificationChannel": "Status Update Channel (Optional)",
+    "noneOption": "Completely Anonymous (Check status manually via Tracking ID)",
+    "emailOption": "Encrypted Email Notifications",
+    "emailPlaceholder": "anonymous.inbox@proton.me (Stored with AES-256)",
+    "consentHeading": "Statutory Consent & Whistleblower Agreement",
+    "consentText": "I declare that the information provided is bona fide to the best of my knowledge. I understand my submission is protected with cryptographic encryption and logged to a tamper-evident audit ledger.",
+    "submitBtn": "Submit Encrypted Complaint",
+    "submitting": "Encrypting & Analyzing..."
+  },
+  "track": {
+    "title": "Track Grievance Status",
+    "subtitle": "Enter your 16-character alphanumeric Tracking ID to retrieve the current lifecycle status and timeline updates.",
+    "placeholder": "e.g. BSAI-2026-X8F2-99AC",
+    "searchBtn": "Lookup Status",
+    "searching": "Retrieving Ledger...",
+    "timelineHeading": "Immutable Case Timeline",
+    "evidenceHeading": "Submitted Evidence Records",
+    "aiAssessment": "AI Risk Prioritization",
+    "riskLevel": "Risk Level",
+    "status": "Current Status"
+  },
+  "status": {
+    "SUBMITTED": "Submitted",
+    "UNDER_REVIEW": "Under Review",
+    "INVESTIGATING": "Under Investigation",
+    "ESCALATED": "Escalated to Vigilance",
+    "RESOLVED": "Resolved / Redressed",
+    "REJECTED": "Closed / Rejected"
+  },
+  "risk": {
+    "LOW": "Low Priority",
+    "MEDIUM": "Medium Priority",
+    "HIGH": "High Priority",
+    "CRITICAL": "Critical Urgent"
+  }
+}
+

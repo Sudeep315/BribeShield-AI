@@ -1,0 +1,231 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  INVESTIGATOR
+  ANALYST
+  AUDITOR
+}
+
+enum ComplaintStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  INVESTIGATING
+  ESCALATED
+  RESOLVED
+  REJECTED
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum NotificationChannel {
+  NONE
+  EMAIL
+  SMS
+  PUSH
+}
+
+enum StorageProvider {
+  LOCAL_ENCRYPTED
+  S3_COMPATIBLE
+}
+
+enum SyncStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  fullName     String
+  role         Role        @default(INVESTIGATOR)
+  department   String?
+  isActive     Boolean     @default(true)
+  lastLogin    DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  timelines    Timeline[]
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model Complaint {
+  id                     String              @id @default(uuid())
+  trackingId             String              @unique
+  trackingCodeHash       String              @unique
+  status                 ComplaintStatus     @default(SUBMITTED)
+  priority               RiskLevel           @default(MEDIUM)
+  department             String
+  category               String
+  incidentDate           DateTime
+  incidentLocation       String
+  city                   String
+  state                  String?
+  encryptedDescription   String              @db.Text
+  encryptedBribeAmount   String?
+  bribeAmountNumeric     Float?
+  encryptedAccused       String?             @db.Text
+  encryptedContactInfo   String?             @db.Text
+  notificationChannel    NotificationChannel @default(NONE)
+  isAnonymous            Boolean             @default(true)
+  consentAgreed          Boolean             @default(true)
+  ipHash                 String?
+  riskScore              Int                 @default(0)
+  riskLevel              RiskLevel           @default(LOW)
+  riskFactors            String              @db.Text
+  nlpAnalysis            String              @db.Text
+  languageCode           String              @default("en")
+  retentionExpiryDate    DateTime?
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  evidences              Evidence[]
+  timelines              Timeline[]
+  grievanceSyncs         GrievanceSync[]
+  notifications          NotificationLog[]
+
+  @@index([status])
+  @@index([department])
+  @@index([riskLevel])
+  @@index([createdAt])
+  @@map("complaints")
+}
+
+model Evidence {
+  id              String          @id @default(uuid())
+  complaintId     String
+  originalFilename String
+  storedFilename  String
+  mimeType        String
+  fileSizeBytes   Int
+  checksumSha256  String
+  encryptionIv    String
+  storageProvider StorageProvider @default(LOCAL_ENCRYPTED)
+  storagePath     String
+  isSensitive     Boolean         @default(true)
+  uploadedAt      DateTime        @default(now())
+  complaint       Complaint       @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@index([complaintId])
+  @@map("evidences")
+}
+
+model Timeline {
+  id          String          @id @default(uuid())
+  complaintId String
+  oldStatus   ComplaintStatus?
+  newStatus   ComplaintStatus
+  remarks     String          @db.Text
+  updatedById String?
+  isPublic    Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+  complaint   Complaint       @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  updatedBy   User?           @relation(fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@index([complaintId])
+  @@map("timelines")
+}
+
+model AuditLog {
+  id             String    @id @default(uuid())
+  sequenceNumber Int       @default(1)
+  prevHash       String
+  hash           String    @unique
+  entityType     String
+  entityId       String
+  action         String
+  performedById  String?
+  performedByName String?
+  ipAddressHash  String?
+  details        String    @db.Text
+  createdAt      DateTime  @default(now())
+  performedBy    User?     @relation(fields: [performedById], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model GrievanceSync {
+  id                  String     @id @default(uuid())
+  complaintId         String
+  externalSystem      String
+  externalReferenceId String?
+  syncStatus          SyncStatus @default(PENDING)
+  payloadSent         String?    @db.Text
+  responseReceived    String?    @db.Text
+  lastSyncedAt        DateTime   @default(now())
+  complaint           Complaint  @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@index([complaintId])
+  @@map("grievance_syncs")
+}
+
+model NotificationLog {
+  id           String              @id @default(uuid())
+  complaintId  String
+  channel      NotificationChannel
+  recipient    String
+  subject      String
+  message      String              @db.Text
+  status       SyncStatus          @default(PENDING)
+  sentAt       DateTime            @default(now())
+  complaint    Complaint           @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@index([complaintId])
+  @@map("notification_logs")
+}
+
+model Suspect {
+  id           String   @id @default(uuid())
+  type         String
+  value        String
+  department   String?
+  city         String?
+  reportsCount Int      @default(1)
+  lastReported DateTime @default(now())
+  riskLevel    String   @default("Medium")
+  notes        String?  @db.Text
+  createdAt    DateTime @default(now())
+
+  @@index([type, value])
+  @@map("suspects")
+}
+
+model Advisory {
+  id        String   @id @default(uuid())
+  title     String
+  date      String
+  category  String
+  summary   String   @db.Text
+  action    String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@map("advisories")
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  rating    Int      @default(5)
+  comments  String   @db.Text
+  category  String   @default("General Feedback")
+  createdAt DateTime @default(now())
+
+  @@map("feedbacks")
+}

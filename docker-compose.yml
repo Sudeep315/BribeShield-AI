@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bribeshield-db
+    environment:
+      POSTGRES_DB: bribeshield_db
+      POSTGRES_USER: bribeshield
+      POSTGRES_PASSWORD: bribeshield_secure_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+

@@ -1,0 +1,76 @@
+{
+  "nav": {
+    "title": "ब्राइबशील्ड AI",
+    "subtitle": "लाचलुचपत प्रतिबंधक व्यासपीठ",
+    "fileComplaint": "निनावी तक्रार नोंदवा",
+    "trackComplaint": "तक्रारीची स्थिती तपासा",
+    "adminPortal": "अधिकारी पोर्टल",
+    "language": "भाषा",
+    "securityBadge": "AES-256 कूटबद्ध आणि सुरक्षित"
+  },
+  "hero": {
+    "title": "पूर्ण गुप्ततेसह निनावी तक्रार.",
+    "highlight": "AI-सक्षम भ्रष्टाचारविरोधी मंच.",
+    "subtitle": "लाचखोरी आणि जबरदस्ती वसुलीची सुरक्षित तक्रार करा. शून्य ओळख संकलन आणि छेडछाड-मुक्त डिजिटल नोंदी.",
+    "ctaFile": "तक्रार नोंदवा",
+    "ctaTrack": "तक्रार तपासा",
+    "anonymousNotice": "कोणताही IP डेटा नाही • संपूर्ण गोपनीयता"
+  },
+  "form": {
+    "step1Title": "विभाग व घटनेचा तपशील",
+    "department": "शासकीय विभाग / कार्यालय",
+    "selectDepartment": "विभाग निवडा...",
+    "category": "प्रकार",
+    "selectCategory": "श्रेणी निवडा...",
+    "incidentDate": "घटनेची तारीख",
+    "location": "स्थान / कार्यालयाचे नाव",
+    "city": "शहर / जिल्हा",
+    "state": "राज्य",
+    "step2Title": "आरोप आणि पुरावे",
+    "description": "घटनेचे स्पष्ट वर्णन",
+    "descriptionPlaceholder": "लाचेची मागणी, व्यक्तीचे नाव आणि कामात केलेला अडथळा याविषयी माहिती लिहा...",
+    "bribeAmount": "मागितलेली लाच रक्कम (₹)",
+    "bribeAmountPlaceholder": "उदा: 25000",
+    "accused": "संबंधित अधिकाऱ्याचे नाव व पद",
+    "accusedPlaceholder": "उदा: उपनिरीक्षक पाटील",
+    "evidenceUpload": "पुरावे अपलोड करा (कूटबद्ध)",
+    "dragFiles": "फायली येथे ड्रॅग करा",
+    "supportedFiles": "ऑडिओ, व्हिडिओ, फोटो, PDF (कमाल 10MB)",
+    "step3Title": "गोपनीयता व संमती",
+    "notificationChannel": "अपडेट्सचा मार्ग",
+    "noneOption": "पूर्णतः निनावी",
+    "emailOption": "सुरक्षित ईमेल",
+    "emailPlaceholder": "email@example.com",
+    "consentHeading": "कायदेशीर संमती",
+    "consentText": "मी जाहीर करतो/करते की दिलेली माहिती माझ्या माहितीनुसार खरी आहे.",
+    "submitBtn": "तक्रार सादर करा",
+    "submitting": "तपासणी सुरू आहे..."
+  },
+  "track": {
+    "title": "तक्रारीची स्थिती तपासा",
+    "subtitle": "आपला ट्रॅकिंग आयडी प्रविष्ट करा.",
+    "placeholder": "उदा: BSAI-2026-X8F2-99AC",
+    "searchBtn": "शोधा",
+    "searching": "शोधत आहे...",
+    "timelineHeading": "तक्रारीची प्रगती टाइमलाइन",
+    "evidenceHeading": "सादर केलेले पुरावे",
+    "aiAssessment": "AI जोखीम विश्लेषण",
+    "riskLevel": "जोखीम पातळी",
+    "status": "सध्याची स्थिती"
+  },
+  "status": {
+    "SUBMITTED": "नोंदवली गेली",
+    "UNDER_REVIEW": "पुनरावलोकन चालू",
+    "INVESTIGATING": "चौकशी सुरू",
+    "ESCALATED": "वरिष्ठ दक्षता विभागाकडे वर्ग",
+    "RESOLVED": "निकाली काढली",
+    "REJECTED": "बंद केली"
+  },
+  "risk": {
+    "LOW": "कमी प्राधान्य",
+    "MEDIUM": "मध्यम प्राधान्य",
+    "HIGH": "उच्च प्राधान्य",
+    "CRITICAL": "अतितातडीचे"
+  }
+}
+

@@ -1,0 +1,181 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  fullName     String
+  role         String      @default("INVESTIGATOR")
+  department   String?
+  isActive     Boolean     @default(true)
+  lastLogin    DateTime?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  timelines    Timeline[]
+  auditLogs    AuditLog[]
+
+  @@map("users")
+}
+
+model Complaint {
+  id                     String            @id @default(uuid())
+  trackingId             String            @unique
+  trackingCodeHash       String            @unique
+  status                 String            @default("SUBMITTED")
+  priority               String            @default("MEDIUM")
+  department             String
+  category               String
+  incidentDate           DateTime
+  incidentLocation       String
+  city                   String
+  state                  String?
+  encryptedDescription   String
+  encryptedBribeAmount   String?
+  bribeAmountNumeric     Float?
+  encryptedAccused       String?
+  encryptedContactInfo   String?
+  notificationChannel    String            @default("NONE")
+  isAnonymous            Boolean           @default(true)
+  consentAgreed          Boolean           @default(true)
+  ipHash                 String?
+  riskScore              Int               @default(0)
+  riskLevel              String            @default("LOW")
+  riskFactors            String
+  nlpAnalysis            String
+  languageCode           String            @default("en")
+  retentionExpiryDate    DateTime?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  evidences              Evidence[]
+  timelines              Timeline[]
+  grievanceSyncs         GrievanceSync[]
+  notifications          NotificationLog[]
+
+  @@map("complaints")
+}
+
+model Evidence {
+  id              String    @id @default(uuid())
+  complaintId     String
+  originalFilename String
+  storedFilename  String
+  mimeType        String
+  fileSizeBytes   Int
+  checksumSha256  String
+  encryptionIv    String
+  storageProvider String    @default("LOCAL_ENCRYPTED")
+  storagePath     String
+  isSensitive     Boolean   @default(true)
+  uploadedAt      DateTime  @default(now())
+  complaint       Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@map("evidences")
+}
+
+model Timeline {
+  id          String     @id @default(uuid())
+  complaintId String
+  oldStatus   String?
+  newStatus   String
+  remarks     String
+  updatedById String?
+  isPublic    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  complaint   Complaint  @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  updatedBy   User?      @relation(fields: [updatedById], references: [id], onDelete: SetNull)
+
+  @@map("timelines")
+}
+
+model AuditLog {
+  id              String   @id @default(uuid())
+  sequenceNumber  Int      @default(1)
+  prevHash        String
+  hash            String   @unique
+  entityType      String
+  entityId        String
+  action          String
+  performedById   String?
+  performedByName String?
+  ipAddressHash   String?
+  details         String
+  createdAt       DateTime @default(now())
+  performedBy     User?    @relation(fields: [performedById], references: [id], onDelete: SetNull)
+
+  @@map("audit_logs")
+}
+
+model GrievanceSync {
+  id                  String    @id @default(uuid())
+  complaintId         String
+  externalSystem      String
+  externalReferenceId String?
+  syncStatus          String    @default("PENDING")
+  payloadSent         String?
+  responseReceived    String?
+  lastSyncedAt        DateTime  @default(now())
+  complaint           Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@map("grievance_syncs")
+}
+
+model NotificationLog {
+  id          String    @id @default(uuid())
+  complaintId String
+  channel     String
+  recipient   String
+  subject     String
+  message     String
+  status      String    @default("PENDING")
+  sentAt      DateTime  @default(now())
+  complaint   Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@map("notification_logs")
+}
+
+// Suspect Repository (Inspired by cybercrime.gov.in Suspect Search)
+model Suspect {
+  id           String   @id @default(uuid())
+  type         String   // 'phone' | 'upi' | 'officer' | 'url'
+  value        String   // Identifier (e.g. phone number, UPI ID, officer name)
+  department   String?
+  city         String?
+  reportsCount Int      @default(1)
+  lastReported DateTime @default(now())
+  riskLevel    String   @default("Medium")
+  notes        String?
+  createdAt    DateTime @default(now())
+
+  @@map("suspects")
+}
+
+// Learning Corner Advisories & Citizen Rights
+model Advisory {
+  id        String   @id @default(uuid())
+  title     String
+  date      String
+  category  String
+  summary   String
+  action    String
+  createdAt DateTime @default(now())
+
+  @@map("advisories")
+}
+
+// Citizen Feedback
+model Feedback {
+  id        String   @id @default(uuid())
+  rating    Int      @default(5)
+  comments  String
+  category  String   @default("General Feedback")
+  createdAt DateTime @default(now())
+
+  @@map("feedbacks")
+}
